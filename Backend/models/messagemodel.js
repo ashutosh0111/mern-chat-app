@@ -1,4 +1,4 @@
-const mongoose = require('mongoose ');
+const mongoose = require('mongoose');
 
 const messagemodel = mongoose.schema({
    sender : {type : mongoose.Schema.Types.ObjectId,   ref :"User"},

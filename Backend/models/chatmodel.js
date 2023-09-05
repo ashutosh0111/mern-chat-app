@@ -1,4 +1,4 @@
-const mongoose = require('momngoose');
+const mongoose = require('mongoose');
 
 const chatmodel = mongoose.Schema({
     chatName :{ type : string , trim : true},

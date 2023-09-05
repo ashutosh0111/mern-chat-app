@@ -14,15 +14,15 @@ const registerUser = expressAsyncHandler(async(req, res)=>{
         throw new Error("User Already Exists");
      }
      const user = await User.create({
-        name , email , password, pic
+        name , email , password, pic,
      });
      if(user){
         res.status(201).json({
            _id: user._id, 
-           name :user.name  ,
+           name :user.name,
            email : user.email,
            pic : user.pic,
-           token: generateToken(user._id)   ,                    
+         token: generateToken(user._id)   ,                    
         });
 
      }
@@ -33,4 +33,23 @@ const registerUser = expressAsyncHandler(async(req, res)=>{
 
 });
 
-module.exports= {registerUser};
+const authUser = expressAsyncHandler(async (req, res)=>{
+   const {email , password}= req.body;
+   const user = await User.findOne({email});
+   if(user && (await User.matchPassword(password))){
+      res.json({
+         _id: user._id, 
+           name :user.name,
+           email : user.email,
+           pic : user.pic,
+         token: generateToken(user._id),
+      })
+   }
+   else {
+      res.status(401);
+      throw new Error ("Invalid Id or password ");
+   }
+
+
+})
+module.exports= {registerUser, authUser};
